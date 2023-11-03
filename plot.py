@@ -82,6 +82,17 @@ def confidence_plot(file):
     for i in range(len(data["confidence"])):
         if data["confidence"][i] == "Extremely confident":
             if "english" in data["medium"][i].lower():
+                ec += 5
+                ep += 1
+            elif "regional" in data["medium"][i].lower():
+                rc += 5
+                rp += 1
+            else:
+                oc += 5
+                op += 1
+
+        elif data["confidence"][i] == "Quite confident":
+            if "english" in data["medium"][i].lower():
                 ec += 4
                 ep += 1
             elif "regional" in data["medium"][i].lower():
@@ -91,7 +102,8 @@ def confidence_plot(file):
                 oc += 4
                 op += 1
 
-        elif data["confidence"][i] == "Quite confident":
+
+        if data["confidence"][i] == "Neutral":
             if "english" in data["medium"][i].lower():
                 ec += 3
                 ep += 1
@@ -103,7 +115,7 @@ def confidence_plot(file):
                 op += 1
 
 
-        if data["confidence"][i] == "Neutral":
+        if data["confidence"][i] == "Somewhat confident":
             if "english" in data["medium"][i].lower():
                 ec += 2
                 ep += 1
@@ -114,8 +126,7 @@ def confidence_plot(file):
                 oc += 2
                 op += 1
 
-
-        if data["confidence"][i] == "Somewhat confident":
+        if data["confidence"][i] == "Not confident at all":
             if "english" in data["medium"][i].lower():
                 ec += 1
                 ep += 1
@@ -124,17 +135,6 @@ def confidence_plot(file):
                 rp += 1
             else:
                 oc += 1
-                op += 1
-
-        if data["confidence"][i] == "Not confident at all":
-            if "english" in data["medium"][i].lower():
-                ec += 0
-                ep += 1
-            elif "regional" in data["medium"][i].lower():
-                rc += 0
-                rp += 1
-            else:
-                oc += 0
                 op += 1
 
     print("~~Frequency~~")
@@ -147,16 +147,20 @@ def confidence_plot(file):
     rper = (rc / (rp*4))*100
     oper = (oc / (op*4))*100
     
-    xval = ["English Medium", "Regional Language", "Other"]
+    labels = ["English Medium", "Regional Language Medium", "Other Medium"]
+
+    xval = [10, 40, 70]
     yval = [eper, rper, oper]
     colors = ['#FF5733', '#33FF57', '#3333FF']
 
-    plt.title('Confidence in financial abilities of different language speakers')
+    plt.title('Confidence in financial abilities for groups of different mediums of education')
 
-    plt.bar(10, yval[0], width=20, label = xval[0], color=colors[0])
-    plt.bar(40, yval[1], width=20, label = xval[1], color=colors[1])
-    plt.bar(70, yval[2], width=20, label = xval[2], color=colors[2])
-    # plt.bar(xval, yval)
+    plt.bar(xval[0], yval[0], width=15, label = labels[0], color=colors[0])
+    plt.bar(xval[1], yval[1], width=15, label = labels[1], color=colors[1])
+    plt.bar(xval[2], yval[2], width=15, label = labels[2], color=colors[2])
+
+    plt.xticks(xval, labels)
+
     plt.xlabel('Categories')
     plt.ylabel('Values')
     plt.show()
@@ -219,6 +223,31 @@ def motivation_plot(file):
     plt.pie(motivation_array, labels = labels, autopct='%1.1f%%', startangle=140, textprops={'fontsize': 8})
     plt.show()
 
+
+def medium_of_education_plot(file):
+    medium_of_education = file["Your medium of education for high school"]
+
+    english = 0
+    regional = 0
+    other = 0
+
+    for medium in medium_of_education:
+        if medium == "English medium":
+            english += 1
+        elif medium == "Regional language":
+            regional += 1
+        elif medium == "Other":
+            other += 1
+
+    medium_of_education_array = np.array([english, regional, other])
+    labels = ["English Medium", "Regional Language", "Other"]
+
+    plt.title("Medium of Education for High School")
+    plt.pie(medium_of_education_array, autopct='%1.1f%%', startangle=140, textprops={'fontsize': 8})
+    plt.legend(labels, loc = "best")
+    plt.show()    
+
+
 def languages_plot(file):
     languages = file["Primary language (for everyday communication)"]
 
@@ -252,7 +281,7 @@ def languages_plot(file):
 
     plt.title("Primary languages for everyday communication")
     plt.pie(languages_array, autopct='%1.1f%%', startangle=140, textprops={'fontsize': 8})
-    plt.legend(labels, title = "Languages", loc = "upper right")
+    plt.legend(labels, loc = "best")
     plt.show()
 
 
@@ -285,45 +314,119 @@ def academic_years_plot(file):
     plt.show()
 
 
+
+def age_plot(file):
+    age = file["Age"]
+
+    g18_20 = 0
+    g21_23 = 0
+    g24_26 = 0
+    g27_above = 0
+
+    for a in age:
+        if a == "18 to 20":
+            g18_20 += 1
+        elif a == "21 to 23":
+            g21_23 += 1
+        elif a == "24 to 26":
+            g24_26 += 1
+        elif a == "27 and above":
+            g27_above += 1
+
+    age_array = np.array([g18_20, g21_23, g24_26, g27_above])
+    labels = ["18 to 20", "21 to 23", "24 to 26", "27 and above"]
+
+    plt.title("Age")
+    plt.pie(age_array, autopct='%1.1f%%', startangle=140, textprops={'fontsize': 8})
+    plt.legend(labels, loc = "best")
+    plt.show() 
+
+
+def gender_plot(file):
+    gender = file["Gender"]
+
+    male = 0
+    female = 0
+    other = 0
+    prefer_not_to_say = 0
+
+    for gen in gender:
+        if gen == "Male":
+            male += 1
+        elif gen == "Female":
+            female += 1
+        elif gen == "Other":
+            other += 1
+        elif gen == "Prefer Not To Say":
+            prefer_not_to_say += 1
+
+    gender_array = np.array([male, female, other, prefer_not_to_say])
+    labels = ["Male", "Female", "Other", "Prefer Not To Say"]
+
+    plt.title("Gender")
+    plt.pie(gender_array, autopct='%1.1f%%', startangle=140, textprops={'fontsize': 8})
+    plt.legend(labels, loc = "best")
+    plt.show() 
+
+
+
 if __name__ == "__main__":
     file = pd.read_excel("responses.xlsx")
 
     while(True):
-        print("Plot Menu")
-        print("Enter 1 for academic years")
-        print("Enter 2 for primary languages")
-        print("Enter 3 for demotivation by jargon")
-        print("Enter 4 for english preference")
-        print("Enter 5 for financial self-confidence")
-        print("Enter 6 for borrowing bias")
-        print("Enter 7 for lending bias")
-        print("Enter 8 for exit")
+        print("~~~~~ Plot Menu ~~~~~")
+        print("\nDemographic details:")
+        print("Enter 1 for Gender")
+        print("Enter 2 for Age")
+        print("Enter 3 for Academic Years")
+        print("Enter 4 for Primary Spoken Language")
+        print("Enter 5 for Medium of Education")
+
+        print("\nEmpirical Pie Charts")
+        print("Enter 6 for Motivation levels")
+        print("Enter 7 for English Preference")
+        print("Enter 8 for Financial Self-Confidence")
+        print("Enter 9 for Borrowing")
+        print("Enter 10 for Lending")
+
+        print("\nEnter 0 to exit")
 
         ch = int(input())
 
-        if ch == 1:
-            academic_years_plot(file)
+        plt.figure(figsize=(8, 6))
+
+        if ch == 0:
+            break
+
+        elif ch == 1:
+            gender_plot(file)
     
         elif ch == 2:
-            languages_plot(file)
+            age_plot(file)
 
         elif ch == 3:
-            motivation_plot(file)
+            academic_years_plot(file)
 
         elif ch == 4:
-            english_plot(file)
+            languages_plot(file)
 
         elif ch == 5:
-            confidence_plot(file)
+            medium_of_education_plot(file)
 
         elif ch == 6:
-            borrow_plot(file)
+            motivation_plot(file)
 
         elif ch == 7:
-            lend_plot(file)
+            english_plot(file)
 
         elif ch == 8:
-            break
+            confidence_plot(file)
+
+        elif ch == 9:
+            borrow_plot(file)
+
+        elif ch == 10:
+            lend_plot(file)
 
         else:
             print("Try again!\n")
