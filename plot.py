@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
-def confidence(file):
+def confidence_plot(file):
     data = {
         "medium" : file["Your medium of education for high school"],
         "confidence" : file["How confident are you in your ability to manage your finances?"]
@@ -252,7 +252,7 @@ if __name__ == "__main__":
             english_plot(file)
 
         elif ch == 5:
-            confidence(file)
+            confidence_plot(file)
 
         elif ch == 7:
             break
