@@ -3,6 +3,37 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
+def borrow_plot(file):
+
+    borrow = file["How likely are you to ask someone from a different linguistic group to borrow money?"]
+
+
+    very_often = 0
+    often = 0
+    sometimes = 0
+    rarely = 0
+    never = 0
+
+    for bor in borrow:
+        if bor == "Very often":
+            very_often += 1
+        elif bor == "Often":
+            often += 1
+        elif bor == "Sometimes":
+            sometimes += 1
+        elif bor == "Rarely":
+            rarely += 1
+        elif bor == "Never":
+            never += 1  
+
+    borrow_array = np.array([very_often, often, sometimes, rarely, never])
+    labels = ["Very Often", "Often", "Sometimes", "Rarely", "Never"]
+
+    plt.title("How often one borrows money from someone who speaks a different language")
+    plt.pie(borrow_array, labels = labels, autopct='%1.1f%%', startangle=140, textprops={'fontsize': 8})
+    plt.show()            
+
+
 def confidence_plot(file):
     data = {
         "medium" : file["Your medium of education for high school"],
@@ -235,7 +266,8 @@ if __name__ == "__main__":
         print("Enter 3 for demotivation by jargon")
         print("Enter 4 for english preference")
         print("Enter 5 for financial self-confidence")
-        print("Enter 7 for exit")
+        print("Enter 6 for borrowing bias")
+        print("Enter 8 for exit")
 
         ch = int(input())
 
@@ -254,7 +286,10 @@ if __name__ == "__main__":
         elif ch == 5:
             confidence_plot(file)
 
-        elif ch == 7:
+        elif ch == 6:
+            borrow_plot(file)
+
+        elif ch == 8:
             break
 
         else:
