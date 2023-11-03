@@ -28,7 +28,7 @@ def lend_plot(file):
     lend_array = np.array([very_often, often, sometimes, rarely, never])
     labels = ["Very Often", "Often", "Sometimes", "Rarely", "Never"]
 
-    plt.title("How often one borrows money from someone who speaks a different language")
+    plt.title("How often one lends money to someone who speaks a different language")
     plt.pie(lend_array, labels = labels, autopct='%1.1f%%', startangle=140, textprops={'fontsize': 8})
     plt.show() 
 
