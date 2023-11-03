@@ -170,7 +170,10 @@ def languages_plot(file):
     haryanvi = 0
 
     for lang in languages:
-        if "hindi" in lang.lower():
+        if "hindi" in lang.lower() and "english" in lang.lower():
+            hindi += 1
+            english += 1
+        elif "hindi" in lang.lower():
             hindi += 1
         elif "english" in lang.lower():
             english += 1
